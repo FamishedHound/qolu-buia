@@ -36,7 +36,7 @@ cd qolu-buia
 pip install -r requirements.txt
 ```
 
-Run everything from the repository root.
+Run everything from the repository root. On Windows, clone into a folder with a short path or enable long paths (`git config --global core.longpaths true`): the longest file path in the repository is 160 characters.
 
 ## Data
 
