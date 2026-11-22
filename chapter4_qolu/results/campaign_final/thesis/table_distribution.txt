@@ -1,0 +1,30 @@
+Table: return-distribution accuracy (table_distribution.tex)
+
+Source: chapter4_qolu/results/final_diag/distribution_diagnostics_final/distribution_diagnostics_sweep.json; tag 'final', 12 of 12 cells finished.
+Run: method qolu_buia, window E495_N165, configuration 50x50_f1.0_cap1, reward reading team, 3 stakeholders, 1000 training iterations, scenarios [1, 2, 3, 4], seeds [0, 1, 2].
+Evaluation: a greedy rollout of 200 iterations after training (epsilon 0, NoisyNet noise zeroed, no learning).
+
+Each cell: mean +- standard error (ddof = 1) over diagnostics cells, one cell = one (scenario, seed) run; n = Scenario 1: 3, Scenario 2: 3, Scenario 3: 3, Scenario 4: 3, Pooled: 12.
+Distribution rows are scored against the tail_return reading of the realised return (the bootstrap-free discounted tail of the appraisal stream), pooled over the cell's stakeholders:
+  CRPS skill vs climatology: 1 - CRPS(model) / CRPS(state-blind marginal histogram of the cell's returns); positive = better than climatology.
+  CRPS skill vs initialisation: 1 - CRPS(model) / CRPS(the same network at initialisation).
+  PIT KS statistic: Kolmogorov-Smirnov distance of the randomised PIT from U(0, 1); an effect size (its p-value is not reported because the appraisals are not independent).
+  Coverage of the central 50 % / 90 % interval: share of realised returns inside the predicted central interval.
+  MAE of E[Z]: mean absolute error of the predicted mean return.
+Policy rows come from the same rollout and are averaged over the cell's stakeholders before the across-cell mean:
+  Quality-score SD within an iteration: SD of Q(s, approve) - Q(s, reject) across the candidates of one decision buffer, averaged over iterations.
+  Stakeholders approving all or none: share of the cell's stakeholders whose greedy approval rate over the rollout is exactly 0 or 1.
+  Greedy approval rate: share of appraised candidates approved.
+
+Learner: t_n = 25 gradient steps (target_sync_interval), 39 target-network syncs per stakeholder in every cell.
+
+Values at full precision (mean, SE):
+  CRPS skill vs climatology: Scenario 1 -6.95751 (0.67); Scenario 2 -7.15801 (0.969); Scenario 3 -5.66664 (0.586); Scenario 4 -8.52904 (0.912); Pooled -7.0778 (0.458)
+  CRPS skill vs initialisation: Scenario 1 0.444713 (0.0172); Scenario 2 0.432306 (0.0274); Scenario 3 0.426137 (0.0295); Scenario 4 0.42954 (0.0219); Pooled 0.433174 (0.0107)
+  PIT KS statistic: Scenario 1 0.800709 (0.0162); Scenario 2 0.797977 (0.0256); Scenario 3 0.782176 (0.024); Scenario 4 0.838647 (0.0223); Pooled 0.804877 (0.0114)
+  Coverage of the central 50 % interval: Scenario 1 0.0149111 (0.00198); Scenario 2 0.0140444 (0.00107); Scenario 3 0.0156778 (0.00191); Scenario 4 0.0132667 (0.000885); Pooled 0.014475 (0.000711)
+  Coverage of the central 90 % interval: Scenario 1 0.564967 (0.0329); Scenario 2 0.573044 (0.103); Scenario 3 0.560278 (0.0859); Scenario 4 0.264922 (0.0842); Pooled 0.490803 (0.0523)
+  MAE of E[Z]: Scenario 1 86.8049 (3.25); Scenario 2 86.2126 (4.23); Scenario 3 87.6619 (4.68); Scenario 4 92.235 (3.33); Pooled 88.2286 (1.82)
+  Quality-score SD within an iteration: Scenario 1 0.00710136 (0.00056); Scenario 2 0.00733234 (0.00113); Scenario 3 0.00665772 (0.000771); Scenario 4 0.00708908 (0.000468); Pooled 0.00704512 (0.000338)
+  Share of stakeholders approving all or none: Scenario 1 0.888889 (0.111); Scenario 2 1 (0); Scenario 3 1 (0); Scenario 4 1 (0); Pooled 0.972222 (0.0278)
+  Greedy approval rate: Scenario 1 0.888422 (0.111); Scenario 2 0.888889 (0.111); Scenario 3 0.777778 (0.111); Scenario 4 0.777778 (0.111); Pooled 0.833217 (0.0502)

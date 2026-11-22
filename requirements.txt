@@ -1,0 +1,16 @@
+# Runtime dependencies of the chapter4_qolu package.
+#
+# numpy and torch are the numerical and learning dependencies.
+# rasterio is the preferred GeoTIFF reader because it exposes CRS, affine
+# transform and nodata; tifffile is supported as a fallback, so installing
+# only one of the two is enough.
+numpy>=1.24
+torch>=2.0
+rasterio>=1.3 ; python_version >= "3.9"
+tifffile>=2021.4.8
+
+# Test / tooling
+pytest>=8.0
+black>=24.0
+isort>=5.12
+ruff>=0.5

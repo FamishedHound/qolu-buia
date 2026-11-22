@@ -1,0 +1,61 @@
+scenario,view,method,metric,legend,mean,se,sd,n
+1,absolute,no_regulator,land_use,Land Use,0.979,0.001,0.002,5
+1,absolute,no_regulator,woodland,Woodland Loss,0.187,0.005,0.012,5
+1,absolute,no_regulator,urban,Urban,0.838,0.000,0.001,5
+1,absolute,ltos,land_use,Land Use,0.969,0.001,0.003,5
+1,absolute,ltos,woodland,Woodland Loss,0.139,0.059,0.131,5
+1,absolute,ltos,urban,Urban,0.839,0.002,0.004,5
+1,absolute,pmaddpg,land_use,Land Use,0.970,0.000,0.001,5
+1,absolute,pmaddpg,woodland,Woodland Loss,0.132,0.006,0.014,5
+1,absolute,pmaddpg,urban,Urban,0.842,0.001,0.001,5
+1,absolute,mitm_learned,land_use,Land Use,0.970,0.000,0.001,5
+1,absolute,mitm_learned,woodland,Woodland Loss,0.259,0.000,0.000,5
+1,absolute,mitm_learned,urban,Urban,0.838,0.000,0.001,5
+1,absolute,qolu_buia,land_use,Land Use,0.980,0.002,0.005,5
+1,absolute,qolu_buia,woodland,Woodland Loss,0.433,0.051,0.114,5
+1,absolute,qolu_buia,urban,Urban,0.842,0.001,0.002,5
+2,absolute,no_regulator,land_use,Land Use,0.979,0.001,0.002,5
+2,absolute,no_regulator,woodland,Woodland Loss,0.187,0.005,0.012,5
+2,absolute,no_regulator,urban,Urban,0.838,0.000,0.001,5
+2,absolute,ltos,land_use,Land Use,0.969,0.001,0.003,5
+2,absolute,ltos,woodland,Woodland Loss,0.138,0.058,0.131,5
+2,absolute,ltos,urban,Urban,0.839,0.002,0.004,5
+2,absolute,pmaddpg,land_use,Land Use,0.970,0.000,0.001,5
+2,absolute,pmaddpg,woodland,Woodland Loss,0.136,0.005,0.011,5
+2,absolute,pmaddpg,urban,Urban,0.842,0.000,0.001,5
+2,absolute,mitm_learned,land_use,Land Use,0.980,0.000,0.000,5
+2,absolute,mitm_learned,woodland,Woodland Loss,0.257,0.000,0.001,5
+2,absolute,mitm_learned,urban,Urban,0.835,0.000,0.000,5
+2,absolute,qolu_buia,land_use,Land Use,0.981,0.003,0.006,5
+2,absolute,qolu_buia,woodland,Woodland Loss,0.384,0.048,0.108,5
+2,absolute,qolu_buia,urban,Urban,0.841,0.003,0.006,5
+3,absolute,no_regulator,land_use,Land Use,0.979,0.001,0.002,5
+3,absolute,no_regulator,woodland,Woodland Loss,0.187,0.005,0.012,5
+3,absolute,no_regulator,urban,Urban,0.838,0.000,0.001,5
+3,absolute,ltos,land_use,Land Use,0.970,0.002,0.005,5
+3,absolute,ltos,woodland,Woodland Loss,0.155,0.063,0.142,5
+3,absolute,ltos,urban,Urban,0.840,0.001,0.002,5
+3,absolute,pmaddpg,land_use,Land Use,0.970,0.000,0.001,5
+3,absolute,pmaddpg,woodland,Woodland Loss,0.134,0.004,0.009,5
+3,absolute,pmaddpg,urban,Urban,0.842,0.001,0.001,5
+3,absolute,mitm_learned,land_use,Land Use,0.971,0.000,0.001,5
+3,absolute,mitm_learned,woodland,Woodland Loss,0.259,0.000,0.000,5
+3,absolute,mitm_learned,urban,Urban,0.838,0.000,0.001,5
+3,absolute,qolu_buia,land_use,Land Use,0.979,0.003,0.006,5
+3,absolute,qolu_buia,woodland,Woodland Loss,0.425,0.049,0.109,5
+3,absolute,qolu_buia,urban,Urban,0.841,0.001,0.003,5
+4,absolute,no_regulator,land_use,Land Use,0.979,0.001,0.002,5
+4,absolute,no_regulator,woodland,Woodland Loss,0.187,0.005,0.012,5
+4,absolute,no_regulator,urban,Urban,0.838,0.000,0.001,5
+4,absolute,ltos,land_use,Land Use,0.970,0.002,0.004,5
+4,absolute,ltos,woodland,Woodland Loss,0.146,0.060,0.134,5
+4,absolute,ltos,urban,Urban,0.839,0.002,0.004,5
+4,absolute,pmaddpg,land_use,Land Use,0.970,0.001,0.001,5
+4,absolute,pmaddpg,woodland,Woodland Loss,0.131,0.004,0.009,5
+4,absolute,pmaddpg,urban,Urban,0.842,0.001,0.001,5
+4,absolute,mitm_learned,land_use,Land Use,0.970,0.000,0.000,5
+4,absolute,mitm_learned,woodland,Woodland Loss,0.259,0.000,0.000,5
+4,absolute,mitm_learned,urban,Urban,0.838,0.000,0.001,5
+4,absolute,qolu_buia,land_use,Land Use,0.981,0.001,0.003,5
+4,absolute,qolu_buia,woodland,Woodland Loss,0.365,0.031,0.069,5
+4,absolute,qolu_buia,urban,Urban,0.839,0.001,0.002,5

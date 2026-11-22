@@ -1,0 +1,1850 @@
+{
+  "policy_use_of_the_distribution": {
+    "depends_only_on_the_mean": true,
+    "quality_score": "Q(s, approve) - Q(s, reject), with Q(s, a) = sum_i z_i p_i(s, a) = E[Z(s, a)]",
+    "greedy_action": "argmax_a E[Z(s, a)]",
+    "consensus": "the signed sum of the stakeholders' quality scores, so the consensus is a function of the means alone",
+    "risk_sensitivity": "none - no quantile, variance or tail of Z enters a decision anywhere in this package",
+    "where_the_distribution_acts": "the learning rule only - the loss is the KL divergence against the projected n-step target distribution, so the shape of Z shapes the gradients and therefore the mean that is learnt",
+    "consequence": "Z is an internal model, not a decision variable; the statistics below measure whether that internal model is any good."
+  },
+  "rollout": {
+    "iterations": 200,
+    "samples_per_iteration": 50,
+    "n_stakeholders": 3,
+    "qolu_reward_mode": "team",
+    "scenario_weights": [
+      0.33,
+      0.33,
+      0.33
+    ],
+    "epsilon": 0.0,
+    "investor": true,
+    "notes": [
+      "greedy on the mean parameters (epsilon = 0, NoisyNet noise zeroed)",
+      "no gradient step and no replay push during the rollout",
+      "1 episode(s) inside the rollout"
+    ],
+    "stakeholders": [
+      {
+        "stakeholder": 0,
+        "objective": "land_use",
+        "n_appraisals": 10000,
+        "n_atoms": 51,
+        "v_min": -200.0,
+        "v_max": 200.0,
+        "gamma": 0.99,
+        "n_step": 3,
+        "approval_rate": 1.0,
+        "mean_reward": 1.5939542493894492,
+        "quality_score": {
+          "n": 10000,
+          "mean": 0.39620961456298825,
+          "sd": 0.006128203001331505,
+          "min": 0.37430572509765625,
+          "max": 0.41626739501953125,
+          "mean_absolute": 0.39620961456298825,
+          "within_iteration_sd": 0.006033977001270841,
+          "spread_ratio": 0.015467072923232308,
+          "fraction_positive": 1.0,
+          "no_spread": false
+        }
+      },
+      {
+        "stakeholder": 1,
+        "objective": "woodland",
+        "n_appraisals": 10000,
+        "n_atoms": 51,
+        "v_min": -200.0,
+        "v_max": 200.0,
+        "gamma": 0.99,
+        "n_step": 3,
+        "approval_rate": 1.0,
+        "mean_reward": 1.5939542493894492,
+        "quality_score": {
+          "n": 10000,
+          "mean": 1.2265206733703613,
+          "sd": 0.006391359260184574,
+          "min": 1.2050094604492188,
+          "max": 1.2480545043945312,
+          "mean_absolute": 1.2265206733703613,
+          "within_iteration_sd": 0.006294667193783768,
+          "spread_ratio": 0.005210967412902818,
+          "fraction_positive": 1.0,
+          "no_spread": false
+        }
+      },
+      {
+        "stakeholder": 2,
+        "objective": "urban",
+        "n_appraisals": 10000,
+        "n_atoms": 51,
+        "v_min": -200.0,
+        "v_max": 200.0,
+        "gamma": 0.99,
+        "n_step": 3,
+        "approval_rate": 1.0,
+        "mean_reward": 1.5939542493894492,
+        "quality_score": {
+          "n": 10000,
+          "mean": 0.5696893653869629,
+          "sd": 0.006823957120443299,
+          "min": 0.5450515747070312,
+          "max": 0.5925674438476562,
+          "mean_absolute": 0.5696893653869629,
+          "within_iteration_sd": 0.006717116131595251,
+          "spread_ratio": 0.011978382492374786,
+          "fraction_positive": 1.0,
+          "no_spread": false
+        }
+      }
+    ]
+  },
+  "targets": {
+    "n_step_reward_sum": "bootstrap-free n-step reward sum at the agent's own n and gamma, truncated at the end of the run",
+    "n_step_target": "the agent's own training target: the n-step reward sum plus gamma^n times the double-Q bootstrap from its target network",
+    "tail_return": "bootstrap-free discounted tail of the appraisal stream, truncated at the end of the run"
+  },
+  "headline_target": "tail_return",
+  "pooled": {
+    "stakeholder": -1,
+    "objective": "pooled",
+    "n_appraisals": 30000,
+    "n_atoms": 51,
+    "v_min": -200.0,
+    "v_max": 200.0,
+    "gamma": 0.99,
+    "n_step": 3,
+    "approval_rate": 1.0,
+    "mean_reward": 1.593954249389449,
+    "quality_score": {
+      "n": 30000,
+      "mean": 0.7308065511067708,
+      "sd": 0.35766433016927895,
+      "min": 0.37430572509765625,
+      "max": 1.2480545043945312,
+      "mean_absolute": 0.7308065511067708,
+      "within_iteration_sd": 0.3576633992755536,
+      "spread_ratio": 0.4894104050211561,
+      "fraction_positive": 1.0,
+      "no_spread": false
+    },
+    "targets": {
+      "n_step_reward_sum": {
+        "n": 30000,
+        "mae": 62.12530786226819,
+        "rmse": 62.154239032394734,
+        "bias": 62.12530786226819,
+        "mean_predicted": 66.8590973994835,
+        "mean_realised": 4.73378953721531,
+        "sd_realised": 0.49148756320329146,
+        "pit": {
+          "ks_statistic": 0.7713294838951349,
+          "ks_p_value": 0.0,
+          "mean": 0.19302494301268278,
+          "histogram": {
+            "bins": 10,
+            "edges": [
+              0.0,
+              0.1,
+              0.2,
+              0.30000000000000004,
+              0.4,
+              0.5,
+              0.6000000000000001,
+              0.7000000000000001,
+              0.8,
+              0.9,
+              1.0
+            ],
+            "counts": [
+              0,
+              17211,
+              12789,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "density": [
+              0.0,
+              5.737,
+              4.263,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "n": 30000
+          },
+          "out_of_support_fraction": 0.0,
+          "randomised": true
+        },
+        "coverage": [
+          {
+            "level": 0.5,
+            "nominal": 0.5,
+            "empirical": 0.0,
+            "mean_width": 98.66666666666667,
+            "lower_quantile": 0.25,
+            "upper_quantile": 0.75,
+            "n": 30000
+          },
+          {
+            "level": 0.9,
+            "nominal": 0.9,
+            "empirical": 1.0,
+            "mean_width": 216.0,
+            "lower_quantile": 0.04999999999999999,
+            "upper_quantile": 0.95,
+            "n": 30000
+          }
+        ],
+        "crps": {
+          "model": 40.063891151267136,
+          "reference": {
+            "initialisation": 34.16886715333669,
+            "climatology": 2.8287599626627835
+          },
+          "skill": {
+            "initialisation": -0.17252617628427225,
+            "climatology": -13.163057905257531
+          }
+        },
+        "boundary_mass": {
+          "lower_mean": 6.783894895015692e-05,
+          "upper_mean": 0.00037792149789941807,
+          "total_mean": 0.000445760446849575,
+          "total_max": 0.0005338116607163101,
+          "threshold": 0.05,
+          "fraction_above_threshold": 0.0,
+          "flagged": false,
+          "n": 30000
+        },
+        "support": {
+          "n_atoms": 51,
+          "v_min": -200.0,
+          "v_max": 200.0,
+          "delta_z": 8.0,
+          "realised_sd": 0.49148756320329146,
+          "realised_sd_in_atoms": 0.06143594540041143,
+          "realised_range": 4.378208882858236,
+          "distinct_atoms_used": 2,
+          "resolves_the_signal": false
+        },
+        "clustering": {
+          "n_appraisals": 30000,
+          "n_iterations": 200,
+          "appraisals_per_iteration": 150.0,
+          "distinct_realised_values": 597,
+          "constant_within_iteration": false,
+          "effective_n": 30000
+        }
+      },
+      "n_step_target": {
+        "n": 30000,
+        "mae": 1.7801126110713008,
+        "rmse": 1.8787662163445198,
+        "bias": -1.780018938915429,
+        "mean_predicted": 66.8590973994835,
+        "mean_realised": 68.63911633839894,
+        "sd_realised": 2.025191727664331,
+        "pit": {
+          "ks_statistic": 0.47849228840749514,
+          "ks_p_value": 0.0,
+          "mean": 0.46749117457837414,
+          "histogram": {
+            "bins": 10,
+            "edges": [
+              0.0,
+              0.1,
+              0.2,
+              0.30000000000000004,
+              0.4,
+              0.5,
+              0.6000000000000001,
+              0.7000000000000001,
+              0.8,
+              0.9,
+              1.0
+            ],
+            "counts": [
+              0,
+              0,
+              0,
+              0,
+              29267,
+              733,
+              0,
+              0,
+              0,
+              0
+            ],
+            "density": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              9.755666666666666,
+              0.24433333333333335,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "n": 30000
+          },
+          "out_of_support_fraction": 0.0,
+          "randomised": true
+        },
+        "coverage": [
+          {
+            "level": 0.5,
+            "nominal": 0.5,
+            "empirical": 1.0,
+            "mean_width": 98.66666666666667,
+            "lower_quantile": 0.25,
+            "upper_quantile": 0.75,
+            "n": 30000
+          },
+          {
+            "level": 0.9,
+            "nominal": 0.9,
+            "empirical": 1.0,
+            "mean_width": 216.0,
+            "lower_quantile": 0.04999999999999999,
+            "upper_quantile": 0.95,
+            "n": 30000
+          }
+        ],
+        "crps": {
+          "model": 17.117487724226862,
+          "reference": {
+            "initialisation": 45.512906588387274,
+            "climatology": 2.2834881899970103
+          },
+          "skill": {
+            "initialisation": 0.6238981641178147,
+            "climatology": -6.496201556553386
+          }
+        },
+        "boundary_mass": {
+          "lower_mean": 6.783894895015692e-05,
+          "upper_mean": 0.00037792149789941807,
+          "total_mean": 0.000445760446849575,
+          "total_max": 0.0005338116607163101,
+          "threshold": 0.05,
+          "fraction_above_threshold": 0.0,
+          "flagged": false,
+          "n": 30000
+        },
+        "support": {
+          "n_atoms": 51,
+          "v_min": -200.0,
+          "v_max": 200.0,
+          "delta_z": 8.0,
+          "realised_sd": 2.025191727664331,
+          "realised_sd_in_atoms": 0.25314896595804137,
+          "realised_range": 7.601115658882108,
+          "distinct_atoms_used": 2,
+          "resolves_the_signal": false
+        },
+        "clustering": {
+          "n_appraisals": 30000,
+          "n_iterations": 200,
+          "appraisals_per_iteration": 150.0,
+          "distinct_realised_values": 29198,
+          "constant_within_iteration": false,
+          "effective_n": 30000
+        }
+      },
+      "tail_return": {
+        "n": 30000,
+        "mae": 91.43490848893514,
+        "rmse": 92.34384097924607,
+        "bias": -91.01445128586538,
+        "mean_predicted": 66.8590973994835,
+        "mean_realised": 157.8735486853489,
+        "sd_realised": 15.50531726268442,
+        "pit": {
+          "ks_statistic": 0.8116282117970346,
+          "ks_p_value": 0.0,
+          "mean": 0.9298525407302328,
+          "histogram": {
+            "bins": 10,
+            "edges": [
+              0.0,
+              0.1,
+              0.2,
+              0.30000000000000004,
+              0.4,
+              0.5,
+              0.6000000000000001,
+              0.7000000000000001,
+              0.8,
+              0.9,
+              1.0
+            ],
+            "counts": [
+              0,
+              23,
+              66,
+              68,
+              79,
+              97,
+              122,
+              240,
+              4621,
+              24684
+            ],
+            "density": [
+              0.0,
+              0.007666666666666666,
+              0.022,
+              0.02266666666666667,
+              0.026333333333333334,
+              0.03233333333333333,
+              0.04066666666666666,
+              0.08,
+              1.5403333333333333,
+              8.228
+            ],
+            "n": 30000
+          },
+          "out_of_support_fraction": 0.0,
+          "randomised": true
+        },
+        "coverage": [
+          {
+            "level": 0.5,
+            "nominal": 0.5,
+            "empirical": 0.018733333333333334,
+            "mean_width": 98.66666666666667,
+            "lower_quantile": 0.25,
+            "upper_quantile": 0.75,
+            "n": 30000
+          },
+          {
+            "level": 0.9,
+            "nominal": 0.9,
+            "empirical": 0.5273,
+            "mean_width": 216.0,
+            "lower_quantile": 0.04999999999999999,
+            "upper_quantile": 0.95,
+            "n": 30000
+          }
+        ],
+        "crps": {
+          "model": 55.540282840106315,
+          "reference": {
+            "initialisation": 95.56423998836499,
+            "climatology": 6.8226693242098495
+          },
+          "skill": {
+            "initialisation": 0.41881730188124366,
+            "climatology": -7.140550303826805
+          }
+        },
+        "boundary_mass": {
+          "lower_mean": 6.783894895015692e-05,
+          "upper_mean": 0.00037792149789941807,
+          "total_mean": 0.000445760446849575,
+          "total_max": 0.0005338116607163101,
+          "threshold": 0.05,
+          "fraction_above_threshold": 0.0,
+          "flagged": false,
+          "n": 30000
+        },
+        "support": {
+          "n_atoms": 51,
+          "v_min": -200.0,
+          "v_max": 200.0,
+          "delta_z": 8.0,
+          "realised_sd": 15.50531726268442,
+          "realised_sd_in_atoms": 1.9381646578355525,
+          "realised_range": 181.81794548164493,
+          "distinct_atoms_used": 24,
+          "resolves_the_signal": true
+        },
+        "clustering": {
+          "n_appraisals": 30000,
+          "n_iterations": 200,
+          "appraisals_per_iteration": 150.0,
+          "distinct_realised_values": 10000,
+          "constant_within_iteration": false,
+          "effective_n": 30000
+        }
+      }
+    }
+  },
+  "stakeholders": [
+    {
+      "stakeholder": 0,
+      "objective": "land_use",
+      "n_appraisals": 10000,
+      "n_atoms": 51,
+      "v_min": -200.0,
+      "v_max": 200.0,
+      "gamma": 0.99,
+      "n_step": 3,
+      "approval_rate": 1.0,
+      "mean_reward": 1.5939542493894492,
+      "quality_score": {
+        "n": 10000,
+        "mean": 0.39620961456298825,
+        "sd": 0.006128203001331505,
+        "min": 0.37430572509765625,
+        "max": 0.41626739501953125,
+        "mean_absolute": 0.39620961456298825,
+        "within_iteration_sd": 0.006033977001270841,
+        "spread_ratio": 0.015467072923232308,
+        "fraction_positive": 1.0,
+        "no_spread": false
+      },
+      "targets": {
+        "n_step_reward_sum": {
+          "n": 10000,
+          "mae": 64.63389731044882,
+          "rmse": 64.63577028849843,
+          "bias": 64.63389731044882,
+          "mean_predicted": 69.36768684766415,
+          "mean_realised": 4.73378953721531,
+          "sd_realised": 0.49148756320329146,
+          "pit": {
+            "ks_statistic": 0.8117733981603985,
+            "ks_p_value": 0.0,
+            "mean": 0.1716147683235967,
+            "histogram": {
+              "bins": 10,
+              "edges": [
+                0.0,
+                0.1,
+                0.2,
+                0.30000000000000004,
+                0.4,
+                0.5,
+                0.6000000000000001,
+                0.7000000000000001,
+                0.8,
+                0.9,
+                1.0
+              ],
+              "counts": [
+                0,
+                10000,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "density": [
+                0.0,
+                10.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              "n": 10000
+            },
+            "out_of_support_fraction": 0.0,
+            "randomised": true
+          },
+          "coverage": [
+            {
+              "level": 0.5,
+              "nominal": 0.5,
+              "empirical": 0.0,
+              "mean_width": 96.0,
+              "lower_quantile": 0.25,
+              "upper_quantile": 0.75,
+              "n": 10000
+            },
+            {
+              "level": 0.9,
+              "nominal": 0.9,
+              "empirical": 1.0,
+              "mean_width": 208.0,
+              "lower_quantile": 0.04999999999999999,
+              "upper_quantile": 0.95,
+              "n": 10000
+            }
+          ],
+          "crps": {
+            "model": 41.709357509837005,
+            "reference": {
+              "initialisation": 34.06556789254175,
+              "climatology": 2.8287599626627835
+            },
+            "skill": {
+              "initialisation": -0.2243846232479445,
+              "climatology": -13.744749664292804
+            }
+          },
+          "boundary_mass": {
+            "lower_mean": 4.6924477241555e-05,
+            "upper_mean": 0.00030953426666674205,
+            "total_mean": 0.00035645874390829703,
+            "total_max": 0.00036435329093365,
+            "threshold": 0.05,
+            "fraction_above_threshold": 0.0,
+            "flagged": false,
+            "n": 10000
+          },
+          "support": {
+            "n_atoms": 51,
+            "v_min": -200.0,
+            "v_max": 200.0,
+            "delta_z": 8.0,
+            "realised_sd": 0.49148756320329146,
+            "realised_sd_in_atoms": 0.06143594540041143,
+            "realised_range": 4.378208882858236,
+            "distinct_atoms_used": 2,
+            "resolves_the_signal": false
+          },
+          "clustering": {
+            "n_appraisals": 10000,
+            "n_iterations": 200,
+            "appraisals_per_iteration": 50.0,
+            "distinct_realised_values": 597,
+            "constant_within_iteration": false,
+            "effective_n": 10000
+          }
+        },
+        "n_step_target": {
+          "n": 10000,
+          "mae": 2.040011936976983,
+          "rmse": 2.0986724934298246,
+          "bias": -2.039999444885382,
+          "mean_predicted": 69.36768684766415,
+          "mean_realised": 71.40768629254953,
+          "sd_realised": 0.4922301679745924,
+          "pit": {
+            "ks_statistic": 0.5016426344406469,
+            "ks_p_value": 0.0,
+            "mean": 0.4780171554578037,
+            "histogram": {
+              "bins": 10,
+              "edges": [
+                0.0,
+                0.1,
+                0.2,
+                0.30000000000000004,
+                0.4,
+                0.5,
+                0.6000000000000001,
+                0.7000000000000001,
+                0.8,
+                0.9,
+                1.0
+              ],
+              "counts": [
+                0,
+                0,
+                0,
+                0,
+                10000,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "density": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                10.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              "n": 10000
+            },
+            "out_of_support_fraction": 0.0,
+            "randomised": true
+          },
+          "coverage": [
+            {
+              "level": 0.5,
+              "nominal": 0.5,
+              "empirical": 1.0,
+              "mean_width": 96.0,
+              "lower_quantile": 0.25,
+              "upper_quantile": 0.75,
+              "n": 10000
+            },
+            {
+              "level": 0.9,
+              "nominal": 0.9,
+              "empirical": 1.0,
+              "mean_width": 208.0,
+              "lower_quantile": 0.04999999999999999,
+              "upper_quantile": 0.95,
+              "n": 10000
+            }
+          ],
+          "crps": {
+            "model": 16.14740490028151,
+            "reference": {
+              "initialisation": 46.35928496983254,
+              "climatology": 0.6262317930451246
+            },
+            "skill": {
+              "initialisation": 0.6516899492563542,
+              "climatology": -24.785028929564383
+            }
+          },
+          "boundary_mass": {
+            "lower_mean": 4.6924477241555e-05,
+            "upper_mean": 0.00030953426666674205,
+            "total_mean": 0.00035645874390829703,
+            "total_max": 0.00036435329093365,
+            "threshold": 0.05,
+            "fraction_above_threshold": 0.0,
+            "flagged": false,
+            "n": 10000
+          },
+          "support": {
+            "n_atoms": 51,
+            "v_min": -200.0,
+            "v_max": 200.0,
+            "delta_z": 8.0,
+            "realised_sd": 0.4922301679745924,
+            "realised_sd_in_atoms": 0.06152877099682405,
+            "realised_range": 3.108629620674108,
+            "distinct_atoms_used": 1,
+            "resolves_the_signal": false
+          },
+          "clustering": {
+            "n_appraisals": 10000,
+            "n_iterations": 200,
+            "appraisals_per_iteration": 50.0,
+            "distinct_realised_values": 9731,
+            "constant_within_iteration": false,
+            "effective_n": 10000
+          }
+        },
+        "tail_return": {
+          "n": 10000,
+          "mae": 88.96173750774769,
+          "rmse": 89.8536079863539,
+          "bias": -88.50586183768475,
+          "mean_predicted": 69.36768684766415,
+          "mean_realised": 157.8735486853489,
+          "sd_realised": 15.505317262684418,
+          "pit": {
+            "ks_statistic": 0.8200482208201321,
+            "ks_p_value": 0.0,
+            "mean": 0.9324900579592091,
+            "histogram": {
+              "bins": 10,
+              "edges": [
+                0.0,
+                0.1,
+                0.2,
+                0.30000000000000004,
+                0.4,
+                0.5,
+                0.6000000000000001,
+                0.7000000000000001,
+                0.8,
+                0.9,
+                1.0
+              ],
+              "counts": [
+                0,
+                12,
+                22,
+                24,
+                25,
+                28,
+                37,
+                76,
+                1321,
+                8455
+              ],
+              "density": [
+                0.0,
+                0.012,
+                0.022,
+                0.024,
+                0.025,
+                0.028,
+                0.037,
+                0.076,
+                1.321,
+                8.455
+              ],
+              "n": 10000
+            },
+            "out_of_support_fraction": 0.0,
+            "randomised": true
+          },
+          "coverage": [
+            {
+              "level": 0.5,
+              "nominal": 0.5,
+              "empirical": 0.0185,
+              "mean_width": 96.0,
+              "lower_quantile": 0.25,
+              "upper_quantile": 0.75,
+              "n": 10000
+            },
+            {
+              "level": 0.9,
+              "nominal": 0.9,
+              "empirical": 0.5273,
+              "mean_width": 208.0,
+              "lower_quantile": 0.04999999999999999,
+              "upper_quantile": 0.95,
+              "n": 10000
+            }
+          ],
+          "crps": {
+            "model": 54.698742992452814,
+            "reference": {
+              "initialisation": 95.61960354166496,
+              "climatology": 6.8226693242098495
+            },
+            "skill": {
+              "initialisation": 0.427954718839442,
+              "climatology": -7.017205640958954
+            }
+          },
+          "boundary_mass": {
+            "lower_mean": 4.6924477241555e-05,
+            "upper_mean": 0.00030953426666674205,
+            "total_mean": 0.00035645874390829703,
+            "total_max": 0.00036435329093365,
+            "threshold": 0.05,
+            "fraction_above_threshold": 0.0,
+            "flagged": false,
+            "n": 10000
+          },
+          "support": {
+            "n_atoms": 51,
+            "v_min": -200.0,
+            "v_max": 200.0,
+            "delta_z": 8.0,
+            "realised_sd": 15.505317262684418,
+            "realised_sd_in_atoms": 1.9381646578355523,
+            "realised_range": 181.81794548164493,
+            "distinct_atoms_used": 24,
+            "resolves_the_signal": true
+          },
+          "clustering": {
+            "n_appraisals": 10000,
+            "n_iterations": 200,
+            "appraisals_per_iteration": 50.0,
+            "distinct_realised_values": 10000,
+            "constant_within_iteration": false,
+            "effective_n": 10000
+          }
+        }
+      }
+    },
+    {
+      "stakeholder": 1,
+      "objective": "woodland",
+      "n_appraisals": 10000,
+      "n_atoms": 51,
+      "v_min": -200.0,
+      "v_max": 200.0,
+      "gamma": 0.99,
+      "n_step": 3,
+      "approval_rate": 1.0,
+      "mean_reward": 1.5939542493894492,
+      "quality_score": {
+        "n": 10000,
+        "mean": 1.2265206733703613,
+        "sd": 0.006391359260184574,
+        "min": 1.2050094604492188,
+        "max": 1.2480545043945312,
+        "mean_absolute": 1.2265206733703613,
+        "within_iteration_sd": 0.006294667193783768,
+        "spread_ratio": 0.005210967412902818,
+        "fraction_positive": 1.0,
+        "no_spread": false
+      },
+      "targets": {
+        "n_step_reward_sum": {
+          "n": 10000,
+          "mae": 61.427786514119504,
+          "rmse": 61.42976161616808,
+          "bias": 61.427786514119504,
+          "mean_predicted": 66.16157605133482,
+          "mean_realised": 4.73378953721531,
+          "sd_realised": 0.49148756320329146,
+          "pit": {
+            "ks_statistic": 0.7886075006561273,
+            "ks_p_value": 0.0,
+            "mean": 0.19443692040006216,
+            "histogram": {
+              "bins": 10,
+              "edges": [
+                0.0,
+                0.1,
+                0.2,
+                0.30000000000000004,
+                0.4,
+                0.5,
+                0.6000000000000001,
+                0.7000000000000001,
+                0.8,
+                0.9,
+                1.0
+              ],
+              "counts": [
+                0,
+                6472,
+                3528,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "density": [
+                0.0,
+                6.472,
+                3.528,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              "n": 10000
+            },
+            "out_of_support_fraction": 0.0,
+            "randomised": true
+          },
+          "coverage": [
+            {
+              "level": 0.5,
+              "nominal": 0.5,
+              "empirical": 0.0,
+              "mean_width": 96.0,
+              "lower_quantile": 0.25,
+              "upper_quantile": 0.75,
+              "n": 10000
+            },
+            {
+              "level": 0.9,
+              "nominal": 0.9,
+              "empirical": 1.0,
+              "mean_width": 216.0,
+              "lower_quantile": 0.04999999999999999,
+              "upper_quantile": 0.95,
+              "n": 10000
+            }
+          ],
+          "crps": {
+            "model": 39.338871447999296,
+            "reference": {
+              "initialisation": 34.09572192025676,
+              "climatology": 2.8287599626627835
+            },
+            "skill": {
+              "initialisation": -0.15377734309322566,
+              "climatology": -12.906754891627008
+            }
+          },
+          "boundary_mass": {
+            "lower_mean": 5.724143633960921e-05,
+            "upper_mean": 0.00040113124575582334,
+            "total_mean": 0.0004583726820954325,
+            "total_max": 0.00046846933037159033,
+            "threshold": 0.05,
+            "fraction_above_threshold": 0.0,
+            "flagged": false,
+            "n": 10000
+          },
+          "support": {
+            "n_atoms": 51,
+            "v_min": -200.0,
+            "v_max": 200.0,
+            "delta_z": 8.0,
+            "realised_sd": 0.49148756320329146,
+            "realised_sd_in_atoms": 0.06143594540041143,
+            "realised_range": 4.378208882858236,
+            "distinct_atoms_used": 2,
+            "resolves_the_signal": false
+          },
+          "clustering": {
+            "n_appraisals": 10000,
+            "n_iterations": 200,
+            "appraisals_per_iteration": 50.0,
+            "distinct_realised_values": 597,
+            "constant_within_iteration": false,
+            "effective_n": 10000
+          }
+        },
+        "n_step_target": {
+          "n": 10000,
+          "mae": 1.2940314944746323,
+          "rmse": 1.384678427506376,
+          "bias": -1.2938017091069227,
+          "mean_predicted": 66.16157605133482,
+          "mean_realised": 67.45537776044173,
+          "sd_realised": 0.4922909150806446,
+          "pit": {
+            "ks_statistic": 0.47859931099739406,
+            "ks_p_value": 0.0,
+            "mean": 0.46595340960193,
+            "histogram": {
+              "bins": 10,
+              "edges": [
+                0.0,
+                0.1,
+                0.2,
+                0.30000000000000004,
+                0.4,
+                0.5,
+                0.6000000000000001,
+                0.7000000000000001,
+                0.8,
+                0.9,
+                1.0
+              ],
+              "counts": [
+                0,
+                0,
+                0,
+                0,
+                9265,
+                735,
+                0,
+                0,
+                0,
+                0
+              ],
+              "density": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                9.265,
+                0.735,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              "n": 10000
+            },
+            "out_of_support_fraction": 0.0,
+            "randomised": true
+          },
+          "coverage": [
+            {
+              "level": 0.5,
+              "nominal": 0.5,
+              "empirical": 1.0,
+              "mean_width": 96.0,
+              "lower_quantile": 0.25,
+              "upper_quantile": 0.75,
+              "n": 10000
+            },
+            {
+              "level": 0.9,
+              "nominal": 0.9,
+              "empirical": 1.0,
+              "mean_width": 216.0,
+              "lower_quantile": 0.04999999999999999,
+              "upper_quantile": 0.95,
+              "n": 10000
+            }
+          ],
+          "crps": {
+            "model": 17.05152349968333,
+            "reference": {
+              "initialisation": 45.26012730625831,
+              "climatology": 2.6975030537998523
+            },
+            "skill": {
+              "initialisation": 0.6232550698697319,
+              "climatology": -5.3212249104458325
+            }
+          },
+          "boundary_mass": {
+            "lower_mean": 5.724143633960921e-05,
+            "upper_mean": 0.00040113124575582334,
+            "total_mean": 0.0004583726820954325,
+            "total_max": 0.00046846933037159033,
+            "threshold": 0.05,
+            "fraction_above_threshold": 0.0,
+            "flagged": false,
+            "n": 10000
+          },
+          "support": {
+            "n_atoms": 51,
+            "v_min": -200.0,
+            "v_max": 200.0,
+            "delta_z": 8.0,
+            "realised_sd": 0.4922909150806446,
+            "realised_sd_in_atoms": 0.061536364385080575,
+            "realised_range": 3.179813188728289,
+            "distinct_atoms_used": 2,
+            "resolves_the_signal": false
+          },
+          "clustering": {
+            "n_appraisals": 10000,
+            "n_iterations": 200,
+            "appraisals_per_iteration": 50.0,
+            "distinct_realised_values": 9732,
+            "constant_within_iteration": false,
+            "effective_n": 10000
+          }
+        },
+        "tail_return": {
+          "n": 10000,
+          "mae": 92.12231251280747,
+          "rmse": 93.01340101566757,
+          "bias": -91.71197263401407,
+          "mean_predicted": 66.16157605133482,
+          "mean_realised": 157.8735486853489,
+          "sd_realised": 15.505317262684418,
+          "pit": {
+            "ks_statistic": 0.8116086371255643,
+            "ks_p_value": 0.0,
+            "mean": 0.9288312815774028,
+            "histogram": {
+              "bins": 10,
+              "edges": [
+                0.0,
+                0.1,
+                0.2,
+                0.30000000000000004,
+                0.4,
+                0.5,
+                0.6000000000000001,
+                0.7000000000000001,
+                0.8,
+                0.9,
+                1.0
+              ],
+              "counts": [
+                0,
+                7,
+                22,
+                23,
+                24,
+                32,
+                44,
+                77,
+                1700,
+                8071
+              ],
+              "density": [
+                0.0,
+                0.007,
+                0.022,
+                0.023,
+                0.024,
+                0.032,
+                0.044,
+                0.077,
+                1.7,
+                8.071
+              ],
+              "n": 10000
+            },
+            "out_of_support_fraction": 0.0,
+            "randomised": true
+          },
+          "coverage": [
+            {
+              "level": 0.5,
+              "nominal": 0.5,
+              "empirical": 0.0185,
+              "mean_width": 96.0,
+              "lower_quantile": 0.25,
+              "upper_quantile": 0.75,
+              "n": 10000
+            },
+            {
+              "level": 0.9,
+              "nominal": 0.9,
+              "empirical": 0.5273,
+              "mean_width": 216.0,
+              "lower_quantile": 0.04999999999999999,
+              "upper_quantile": 0.95,
+              "n": 10000
+            }
+          ],
+          "crps": {
+            "model": 56.1473196450916,
+            "reference": {
+              "initialisation": 96.11362442705557,
+              "climatology": 6.8226693242098495
+            },
+            "skill": {
+              "initialisation": 0.415823511184889,
+              "climatology": -7.2295238090839415
+            }
+          },
+          "boundary_mass": {
+            "lower_mean": 5.724143633960921e-05,
+            "upper_mean": 0.00040113124575582334,
+            "total_mean": 0.0004583726820954325,
+            "total_max": 0.00046846933037159033,
+            "threshold": 0.05,
+            "fraction_above_threshold": 0.0,
+            "flagged": false,
+            "n": 10000
+          },
+          "support": {
+            "n_atoms": 51,
+            "v_min": -200.0,
+            "v_max": 200.0,
+            "delta_z": 8.0,
+            "realised_sd": 15.505317262684418,
+            "realised_sd_in_atoms": 1.9381646578355523,
+            "realised_range": 181.81794548164493,
+            "distinct_atoms_used": 24,
+            "resolves_the_signal": true
+          },
+          "clustering": {
+            "n_appraisals": 10000,
+            "n_iterations": 200,
+            "appraisals_per_iteration": 50.0,
+            "distinct_realised_values": 10000,
+            "constant_within_iteration": false,
+            "effective_n": 10000
+          }
+        }
+      }
+    },
+    {
+      "stakeholder": 2,
+      "objective": "urban",
+      "n_appraisals": 10000,
+      "n_atoms": 51,
+      "v_min": -200.0,
+      "v_max": 200.0,
+      "gamma": 0.99,
+      "n_step": 3,
+      "approval_rate": 1.0,
+      "mean_reward": 1.5939542493894492,
+      "quality_score": {
+        "n": 10000,
+        "mean": 0.5696893653869629,
+        "sd": 0.006823957120443299,
+        "min": 0.5450515747070312,
+        "max": 0.5925674438476562,
+        "mean_absolute": 0.5696893653869629,
+        "within_iteration_sd": 0.006717116131595251,
+        "spread_ratio": 0.011978382492374786,
+        "fraction_positive": 1.0,
+        "no_spread": false
+      },
+      "targets": {
+        "n_step_reward_sum": {
+          "n": 10000,
+          "mae": 60.31423976223625,
+          "rmse": 60.316248856186405,
+          "bias": 60.31423976223625,
+          "mean_predicted": 65.04802929945156,
+          "mean_realised": 4.73378953721531,
+          "sd_realised": 0.49148756320329146,
+          "pit": {
+            "ks_statistic": 0.7712232989567148,
+            "ks_p_value": 0.0,
+            "mean": 0.21306343536505118,
+            "histogram": {
+              "bins": 10,
+              "edges": [
+                0.0,
+                0.1,
+                0.2,
+                0.30000000000000004,
+                0.4,
+                0.5,
+                0.6000000000000001,
+                0.7000000000000001,
+                0.8,
+                0.9,
+                1.0
+              ],
+              "counts": [
+                0,
+                687,
+                9313,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "density": [
+                0.0,
+                0.687,
+                9.313,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              "n": 10000
+            },
+            "out_of_support_fraction": 0.0,
+            "randomised": true
+          },
+          "coverage": [
+            {
+              "level": 0.5,
+              "nominal": 0.5,
+              "empirical": 0.0,
+              "mean_width": 104.0,
+              "lower_quantile": 0.25,
+              "upper_quantile": 0.75,
+              "n": 10000
+            },
+            {
+              "level": 0.9,
+              "nominal": 0.9,
+              "empirical": 1.0,
+              "mean_width": 224.0,
+              "lower_quantile": 0.04999999999999999,
+              "upper_quantile": 0.95,
+              "n": 10000
+            }
+          ],
+          "crps": {
+            "model": 39.14344449596512,
+            "reference": {
+              "initialisation": 34.34531164721157,
+              "climatology": 2.8287599626627835
+            },
+            "skill": {
+              "initialisation": -0.13970270230880577,
+              "climatology": -12.837669159852787
+            }
+          },
+          "boundary_mass": {
+            "lower_mean": 9.935093326930655e-05,
+            "upper_mean": 0.00042309898127568886,
+            "total_mean": 0.0005224499145449954,
+            "total_max": 0.0005338116607163101,
+            "threshold": 0.05,
+            "fraction_above_threshold": 0.0,
+            "flagged": false,
+            "n": 10000
+          },
+          "support": {
+            "n_atoms": 51,
+            "v_min": -200.0,
+            "v_max": 200.0,
+            "delta_z": 8.0,
+            "realised_sd": 0.49148756320329146,
+            "realised_sd_in_atoms": 0.06143594540041143,
+            "realised_range": 4.378208882858236,
+            "distinct_atoms_used": 2,
+            "resolves_the_signal": false
+          },
+          "clustering": {
+            "n_appraisals": 10000,
+            "n_iterations": 200,
+            "appraisals_per_iteration": 50.0,
+            "distinct_realised_values": 597,
+            "constant_within_iteration": false,
+            "effective_n": 10000
+          }
+        },
+        "n_step_target": {
+          "n": 10000,
+          "mae": 2.0062944017622866,
+          "rmse": 2.0657993379687243,
+          "bias": -2.006255662753982,
+          "mean_predicted": 65.04802929945156,
+          "mean_realised": 67.05428496220554,
+          "sd_realised": 0.49158581664675266,
+          "pit": {
+            "ks_statistic": 0.5218071070612081,
+            "ks_p_value": 0.0,
+            "mean": 0.4586712101550137,
+            "histogram": {
+              "bins": 10,
+              "edges": [
+                0.0,
+                0.1,
+                0.2,
+                0.30000000000000004,
+                0.4,
+                0.5,
+                0.6000000000000001,
+                0.7000000000000001,
+                0.8,
+                0.9,
+                1.0
+              ],
+              "counts": [
+                0,
+                0,
+                0,
+                0,
+                9995,
+                5,
+                0,
+                0,
+                0,
+                0
+              ],
+              "density": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                9.995,
+                0.005,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ],
+              "n": 10000
+            },
+            "out_of_support_fraction": 0.0,
+            "randomised": true
+          },
+          "coverage": [
+            {
+              "level": 0.5,
+              "nominal": 0.5,
+              "empirical": 1.0,
+              "mean_width": 104.0,
+              "lower_quantile": 0.25,
+              "upper_quantile": 0.75,
+              "n": 10000
+            },
+            {
+              "level": 0.9,
+              "nominal": 0.9,
+              "empirical": 1.0,
+              "mean_width": 224.0,
+              "lower_quantile": 0.04999999999999999,
+              "upper_quantile": 0.95,
+              "n": 10000
+            }
+          ],
+          "crps": {
+            "model": 18.153534772715748,
+            "reference": {
+              "initialisation": 44.919307489070974,
+              "climatology": 3.0469661982962384
+            },
+            "skill": {
+              "initialisation": 0.5958634318409168,
+              "climatology": -4.957904876945007
+            }
+          },
+          "boundary_mass": {
+            "lower_mean": 9.935093326930655e-05,
+            "upper_mean": 0.00042309898127568886,
+            "total_mean": 0.0005224499145449954,
+            "total_max": 0.0005338116607163101,
+            "threshold": 0.05,
+            "fraction_above_threshold": 0.0,
+            "flagged": false,
+            "n": 10000
+          },
+          "support": {
+            "n_atoms": 51,
+            "v_min": -200.0,
+            "v_max": 200.0,
+            "delta_z": 8.0,
+            "realised_sd": 0.49158581664675266,
+            "realised_sd_in_atoms": 0.06144822708084408,
+            "realised_range": 3.2266196828155245,
+            "distinct_atoms_used": 2,
+            "resolves_the_signal": false
+          },
+          "clustering": {
+            "n_appraisals": 10000,
+            "n_iterations": 200,
+            "appraisals_per_iteration": 50.0,
+            "distinct_realised_values": 9735,
+            "constant_within_iteration": false,
+            "effective_n": 10000
+          }
+        },
+        "tail_return": {
+          "n": 10000,
+          "mae": 93.2206754462503,
+          "rmse": 94.11158942305728,
+          "bias": -92.82551938589734,
+          "mean_predicted": 65.04802929945156,
+          "mean_realised": 157.8735486853489,
+          "sd_realised": 15.505317262684418,
+          "pit": {
+            "ks_statistic": 0.8100182519990339,
+            "ks_p_value": 0.0,
+            "mean": 0.9282927069880433,
+            "histogram": {
+              "bins": 10,
+              "edges": [
+                0.0,
+                0.1,
+                0.2,
+                0.30000000000000004,
+                0.4,
+                0.5,
+                0.6000000000000001,
+                0.7000000000000001,
+                0.8,
+                0.9,
+                1.0
+              ],
+              "counts": [
+                0,
+                2,
+                24,
+                23,
+                31,
+                29,
+                55,
+                72,
+                1587,
+                8177
+              ],
+              "density": [
+                0.0,
+                0.002,
+                0.024,
+                0.023,
+                0.031,
+                0.029,
+                0.055,
+                0.072,
+                1.587,
+                8.177
+              ],
+              "n": 10000
+            },
+            "out_of_support_fraction": 0.0,
+            "randomised": true
+          },
+          "coverage": [
+            {
+              "level": 0.5,
+              "nominal": 0.5,
+              "empirical": 0.0192,
+              "mean_width": 104.0,
+              "lower_quantile": 0.25,
+              "upper_quantile": 0.75,
+              "n": 10000
+            },
+            {
+              "level": 0.9,
+              "nominal": 0.9,
+              "empirical": 0.5273,
+              "mean_width": 224.0,
+              "lower_quantile": 0.04999999999999999,
+              "upper_quantile": 0.95,
+              "n": 10000
+            }
+          ],
+          "crps": {
+            "model": 55.77478588277455,
+            "reference": {
+              "initialisation": 94.95949199637444,
+              "climatology": 6.8226693242098495
+            },
+            "skill": {
+              "initialisation": 0.41264654317122884,
+              "climatology": -7.174921461437524
+            }
+          },
+          "boundary_mass": {
+            "lower_mean": 9.935093326930655e-05,
+            "upper_mean": 0.00042309898127568886,
+            "total_mean": 0.0005224499145449954,
+            "total_max": 0.0005338116607163101,
+            "threshold": 0.05,
+            "fraction_above_threshold": 0.0,
+            "flagged": false,
+            "n": 10000
+          },
+          "support": {
+            "n_atoms": 51,
+            "v_min": -200.0,
+            "v_max": 200.0,
+            "delta_z": 8.0,
+            "realised_sd": 15.505317262684418,
+            "realised_sd_in_atoms": 1.9381646578355523,
+            "realised_range": 181.81794548164493,
+            "distinct_atoms_used": 24,
+            "resolves_the_signal": true
+          },
+          "clustering": {
+            "n_appraisals": 10000,
+            "n_iterations": 200,
+            "appraisals_per_iteration": 50.0,
+            "distinct_realised_values": 10000,
+            "constant_within_iteration": false,
+            "effective_n": 10000
+          }
+        }
+      }
+    }
+  ],
+  "policy": {
+    "n_stakeholders": 3,
+    "n_discriminating": 0,
+    "n_degenerate_approval": 3,
+    "n_no_spread": 0,
+    "min_quality_sd": 0.006128203001331505,
+    "max_quality_sd": 0.006823957120443299,
+    "state_dependent": false,
+    "no_spread_ratio": 0.001,
+    "stakeholders": [
+      {
+        "stakeholder": 0,
+        "objective": "land_use",
+        "approval_rate": 1.0,
+        "degenerate_approval": true,
+        "quality_score": {
+          "n": 10000,
+          "mean": 0.39620961456298825,
+          "sd": 0.006128203001331505,
+          "min": 0.37430572509765625,
+          "max": 0.41626739501953125,
+          "mean_absolute": 0.39620961456298825,
+          "within_iteration_sd": 0.006033977001270841,
+          "spread_ratio": 0.015467072923232308,
+          "fraction_positive": 1.0,
+          "no_spread": false
+        },
+        "discriminating": false
+      },
+      {
+        "stakeholder": 1,
+        "objective": "woodland",
+        "approval_rate": 1.0,
+        "degenerate_approval": true,
+        "quality_score": {
+          "n": 10000,
+          "mean": 1.2265206733703613,
+          "sd": 0.006391359260184574,
+          "min": 1.2050094604492188,
+          "max": 1.2480545043945312,
+          "mean_absolute": 1.2265206733703613,
+          "within_iteration_sd": 0.006294667193783768,
+          "spread_ratio": 0.005210967412902818,
+          "fraction_positive": 1.0,
+          "no_spread": false
+        },
+        "discriminating": false
+      },
+      {
+        "stakeholder": 2,
+        "objective": "urban",
+        "approval_rate": 1.0,
+        "degenerate_approval": true,
+        "quality_score": {
+          "n": 10000,
+          "mean": 0.5696893653869629,
+          "sd": 0.006823957120443299,
+          "min": 0.5450515747070312,
+          "max": 0.5925674438476562,
+          "mean_absolute": 0.5696893653869629,
+          "within_iteration_sd": 0.006717116131595251,
+          "spread_ratio": 0.011978382492374786,
+          "fraction_positive": 1.0,
+          "no_spread": false
+        },
+        "discriminating": false
+      }
+    ],
+    "statement": "Of 3 stakeholder(s), 3 approved either every candidate or none of them, and 0 gave every candidate the same quality score to within 0.001 of its own magnitude.  The quality-score standard deviation runs from 0.006128 to 0.006824 across stakeholders: no stakeholder both varied that score and split its verdicts, so the policy separates no candidate from another and its approval rate is a property of the network rather than of the states it appraised."
+  },
+  "verdict": {
+    "n": 30000,
+    "effective_n": 30000,
+    "state_conditional": false,
+    "calibrated": false,
+    "support_adequate": true,
+    "support_resolves_the_signal": true,
+    "crps_skill_vs_climatology": -7.140550303826805,
+    "crps_skill_vs_initialisation": 0.41881730188124366,
+    "calibration_caveat": "The KS p-value is reported as a descriptive threshold, not as a significance test: an evaluation rollout's appraisals are not independent (50 share a state within an iteration, and consecutive iterations share a landscape), so the effective sample size is far below the nominal one and a p-value computed as if the sample were i.i.d. is anti-conservative at these sizes.  Read the KS statistic, which is an effect size, rather than the p-value beside it.",
+    "statement": "CRPS skill against climatology is -7.141: the return distribution carries no more information than the run's marginal histogram, i.e. no state-conditional internal model is evident. The randomised PIT departs from uniformity (KS = 0.812, p = 0), so the distribution is not calibrated. Mass on the two extreme atoms averages 0.0004, so the support holds the distribution. The atom spacing is delta_z = 8 against a realised return of standard deviation 15.5 (1.94 atoms), and the run's returns occupy 24 of 51 atoms, so the support can express the variation being predicted. The mean absolute error of E[Z], the quantity that actually drives decisions, is 91.4349 against a realised return with standard deviation 15.5053. 30000 appraisals were scored over 200 iterations and take 10000 distinct realised values, so the nominal count overstates the independent information behind every statistic above."
+  },
+  "generated": "2026-10-02T21:34:54+00:00",
+  "tag": "final_s1_seed2",
+  "run": {
+    "method": "qolu_buia",
+    "scenario": 1,
+    "weights": {
+      "land_use": 0.33,
+      "woodland": 0.33,
+      "urban": 0.33
+    },
+    "seed": 2,
+    "stakeholders": 3,
+    "window": "E495_N165",
+    "configuration": {
+      "label": "50x50_f1.0_cap1",
+      "description": "50x50 grid, conversion fraction 1.0, cap 1",
+      "grid_size": 50,
+      "grid_height": 50,
+      "grid_width": 50,
+      "conversion_fraction": 1.0,
+      "max_conversions_per_iteration": 1
+    },
+    "raster": "lcm2015_gb_1km_dominant_aggregate_class.img",
+    "qolu_reward_mode": "team",
+    "scale_by_scenario_weight": false,
+    "weighted_consensus": false,
+    "training_iterations": 1000,
+    "evaluation_iterations": 200,
+    "diagnostics_seed": 0,
+    "target_sync_interval": null,
+    "n_atoms": null,
+    "v_min": null,
+    "v_max": null,
+    "learn_steps_per_iteration": null
+  },
+  "plan": {
+    "tag": "final_s1_seed2",
+    "run": {
+      "method": "qolu_buia",
+      "scenario": 1,
+      "weights": {
+        "land_use": 0.33,
+        "woodland": 0.33,
+        "urban": 0.33
+      },
+      "seed": 2,
+      "stakeholders": 3,
+      "window": "E495_N165",
+      "configuration": {
+        "label": "50x50_f1.0_cap1",
+        "description": "50x50 grid, conversion fraction 1.0, cap 1",
+        "grid_size": 50,
+        "grid_height": 50,
+        "grid_width": 50,
+        "conversion_fraction": 1.0,
+        "max_conversions_per_iteration": 1
+      },
+      "raster": "lcm2015_gb_1km_dominant_aggregate_class.img",
+      "qolu_reward_mode": "team",
+      "scale_by_scenario_weight": false,
+      "weighted_consensus": false,
+      "training_iterations": 1000,
+      "evaluation_iterations": 200,
+      "diagnostics_seed": 0,
+      "target_sync_interval": null,
+      "n_atoms": null,
+      "v_min": null,
+      "v_max": null,
+      "learn_steps_per_iteration": null
+    },
+    "training_iterations": 1000,
+    "evaluation_iterations": 200,
+    "agents": "train",
+    "agent_directory": "chapter4_qolu/results/final_diag/distribution_diagnostics_final/runs/distribution_diagnostics_final_s1_seed2/agents",
+    "estimated_training_seconds": 152.0,
+    "estimated_training": "2.5 min",
+    "outputs": [
+      "chapter4_qolu/results/final_diag/distribution_diagnostics_final/runs/distribution_diagnostics_final_s1_seed2/distribution_diagnostics.json",
+      "chapter4_qolu/results/final_diag/distribution_diagnostics_final/runs/distribution_diagnostics_final_s1_seed2/distribution_diagnostics.md",
+      "chapter4_qolu/results/final_diag/distribution_diagnostics_final/runs/distribution_diagnostics_final_s1_seed2/figures"
+    ]
+  },
+  "agents": {
+    "source": "trained",
+    "directory": "chapter4_qolu/results/final_diag/distribution_diagnostics_final/runs/distribution_diagnostics_final_s1_seed2/agents",
+    "n_checkpoints": 3,
+    "investor": "fresh"
+  },
+  "training": {
+    "source": "trained",
+    "iterations": 1000,
+    "episodes": 1,
+    "total_conversions": 683,
+    "mean_team_reward": 1.3726055037817204,
+    "final_metrics": {
+      "land_use": 0.5202691219995844,
+      "woodland": 0.6129666011787819,
+      "urban": 0.977817828057533,
+      "conversion_alignment": 0.041488888888888895,
+      "well_being": 0.6002925402242808
+    },
+    "final_metrics_absolute": {
+      "land_use": 0.9741325418488146,
+      "woodland": 0.6129666011787819,
+      "urban": 0.8431483579803566,
+      "conversion_alignment": 0.041488888888888895,
+      "well_being": 0.6002925402242808
+    },
+    "absolute_max_distance_km": 10.0
+  },
+  "learner": {
+    "target_sync_interval": 25,
+    "gradient_steps": [
+      980,
+      980,
+      980
+    ],
+    "target_syncs": [
+      39,
+      39,
+      39
+    ],
+    "total_target_syncs": 117,
+    "target_network_ever_synced": true,
+    "learning_starts": 1000,
+    "batch_size": 256,
+    "learn_steps_per_iteration": 1,
+    "support": {
+      "n_atoms": 51,
+      "v_min": -200.0,
+      "v_max": 200.0,
+      "delta_z": 8.0
+    }
+  },
+  "figure": {
+    "name": "distribution_calibration_final_s1_seed2",
+    "paths": [
+      "chapter4_qolu/results/final_diag/distribution_diagnostics_final/runs/distribution_diagnostics_final_s1_seed2/figures/distribution_calibration_final_s1_seed2.csv",
+      "chapter4_qolu/results/final_diag/distribution_diagnostics_final/runs/distribution_diagnostics_final_s1_seed2/figures/distribution_calibration_final_s1_seed2.pdf",
+      "chapter4_qolu/results/final_diag/distribution_diagnostics_final/runs/distribution_diagnostics_final_s1_seed2/figures/distribution_calibration_final_s1_seed2.png"
+    ],
+    "caption": "Calibration of the QOLU categorical return distribution: (a) the randomised probability integral transform, which is uniform when the distribution is calibrated, and (b) its reliability diagram with the empirical coverage of the central 50 % and 90 % intervals.  Scored against the tail_return reading of the realised return.",
+    "source": "chapter4_qolu/results/final_diag/distribution_diagnostics_final/runs/distribution_diagnostics_final_s1_seed2",
+    "command": "python -m chapter4_qolu.run_distribution_diagnostics --tag final_s1_seed2",
+    "notes": [
+      "the PIT is randomised because the C51 support is discrete",
+      "the reliability curve is the cumulative PIT histogram, ten points"
+    ]
+  }
+}

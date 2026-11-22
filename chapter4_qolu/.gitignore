@@ -1,0 +1,13 @@
+# Scoped to chapter4_qolu.
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Local UKCEH rasters: licence is non-commercial / personal use, fetch your own.
+data_fixtures/*.tif
+data_fixtures/*.tif.xml
+/data_raw/
+
+# Trained-agent checkpoints (~115 MB per stakeholder); every reported number is
+# already in the JSON beside them.
+results/**/agents/

@@ -1,0 +1,44 @@
+cff-version: 1.2.0
+message: >-
+  If you use this software, please cite the paper given under
+  preferred-citation.
+type: software
+title: "chapter4_qolu: QOLU and BUIA for multi-objective urban land-use planning"
+abstract: >-
+  Reference implementation of QOLU + BUIA, the multi-objective quantile-based
+  multi-agent reinforcement learning system for urban land-use planning: the
+  land-use environment built on UKCEH Land Cover Map rasters, the QOLU and BUIA
+  agents, the P-MADDPG, LToS and MitM baselines, and the code that turns a set
+  of runs into the tables and figures of Chapter 4 of the thesis.
+authors:
+  - family-names: Pelcner
+    given-names: Lukasz
+license: MIT
+keywords:
+  - multi-agent reinforcement learning
+  - distributional reinforcement learning
+  - urban planning
+  - land use
+repository-code: "https://github.com/FamishedHound/qolu-buia"
+preferred-citation:
+  type: conference-paper
+  title: "Multi-Objective Quantile-Based Reinforcement Learning for Modern Urban Planning"
+  authors:
+    - family-names: Pelcner
+      given-names: Lukasz
+    - family-names: Marcolino
+      given-names: Leandro Soriano
+    - family-names: do Carmo Alves
+      given-names: Matheus Aparecido
+    - family-names: Harrison
+      given-names: Paula A.
+    - family-names: Atkinson
+      given-names: Peter M.
+  collection-title: "Proceedings of the Thirty-Fourth International Joint Conference on Artificial Intelligence (IJCAI-25)"
+  conference:
+    name: "IJCAI-25"
+  year: 2025
+  start: 232
+  end: 239
+  doi: "10.24963/ijcai.2025/27"
+  url: "https://www.ijcai.org/proceedings/2025/27"

@@ -1,0 +1,38 @@
+Table: Scenario 4 results (table_scenario4.tex)
+
+Source: chapter4_qolu/results/campaign_final/summary.json, campaign 'final', 100 run records in total.
+Scenario weights: land use 0.25, woodland 0.25, urban 0.50.
+Rows (method keys): No regulator (no_regulator), LToS (ltos), P-MADDPG (pmaddpg), MitM (learned) (mitm_learned), QOLU+BUIA (qolu_buia).
+
+Each cell: mean +- standard error (sample SD with ddof = 1, divided by sqrt(n)) over n = 5 seeds (0, 1, 2, 3, 4), one run per seed of 1000 iterations.
+Land Use, Woodland, Urban: the absolute-normalised view (b): distances saturate at 10 km. Higher is better. Woodland has no distance term, so it is the same in the RAW and absolute views.
+C_align: mean over every parcel of the total-variation distance between the land-type distribution of its (up to eight) adjacent parcels before and after the run; lower is better; the same in every view.
+Conversions: parcels converted in the run; one decimal; no best value is marked.
+C_align x |P| / Conversions, per run in this table (|P| = 2500 parcels): 0.991 to 1.000.
+  Every conversion here turns a whole non-urban parcel urban, which moves the land-type distribution of each adjacent parcel j by exactly 1/n_j whatever the land types were, so C_align is close to Conversions / |P| and differences in C_align follow differences in the number of conversions.
+Bold: the best mean at full precision in the column (highest for Land Use, Woodland and Urban; lowest for C_align); none for Conversions.
+*: two-sided paired t-test of QOLU+BUIA (qolu_buia) against the row's method, paired by seed, on the column's quantity in the view shown, p < 0.05; df = n - 1.  The p-values are not corrected for multiple comparisons.
+
+Paired tests (QOLU+BUIA minus the row's method):
+  No regulator, Land Use: mean difference +0.00226, t = +1.395, df = 4, p = 0.236
+  No regulator, Woodland: mean difference +0.1784, t = +6.008, df = 4, p = 0.00386
+  No regulator, Urban: mean difference +0.001198, t = +1.009, df = 4, p = 0.37
+  No regulator, C_align: mean difference -0.08464, t = -7.408, df = 4, p = 0.00177
+  No regulator, Conversions: mean difference -210.6, t = -7.499, df = 4, p = 0.00169
+  LToS, Land Use: mean difference +0.01108, t = +4.011, df = 4, p = 0.016
+  LToS, Woodland: mean difference +0.2193, t = +2.814, df = 4, p = 0.0481
+  LToS, Urban: mean difference -0.0003492, t = -0.137, df = 4, p = 0.898
+  LToS, C_align: mean difference -0.08473, t = -7.426, df = 4, p = 0.00176
+  LToS, Conversions: mean difference -210.6, t = -7.499, df = 4, p = 0.00169
+  P-MADDPG, Land Use: mean difference +0.01178, t = +8.180, df = 4, p = 0.00122
+  P-MADDPG, Woodland: mean difference +0.2342, t = +7.298, df = 4, p = 0.00187
+  P-MADDPG, Urban: mean difference -0.003236, t = -3.362, df = 4, p = 0.0282
+  P-MADDPG, C_align: mean difference -0.08553, t = -7.445, df = 4, p = 0.00174
+  P-MADDPG, Conversions: mean difference -210.6, t = -7.499, df = 4, p = 0.00169
+  MitM (learned), Land Use: mean difference +0.01101, t = +8.300, df = 4, p = 0.00115
+  MitM (learned), Woodland: mean difference +0.1057, t = +3.417, df = 4, p = 0.0269
+  MitM (learned), Urban: mean difference +0.0008908, t = +0.731, df = 4, p = 0.505
+  MitM (learned), C_align: mean difference -0.08439, t = -7.306, df = 4, p = 0.00187
+  MitM (learned), Conversions: mean difference -210.6, t = -7.499, df = 4, p = 0.00169
+
+C_align provenance across the campaign: 40 records computed it during the run, 60 were scored from their stored initial and final grids, 0 lack it.
