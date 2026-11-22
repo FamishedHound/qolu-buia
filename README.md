@@ -4,7 +4,7 @@
 
 A bottom-up investor agent (**BUIA**) proposes parcels to convert to urban land on a 50 x 50 km window of the UKCEH Land Cover Map 2015, at 1 km resolution. Three top-down stakeholder agents (**QOLU**) appraise each proposal, and a consensus of their appraisals decides whether the conversion goes ahead. QOLU is a categorical distributional DQN (C51) with double Q-learning, a dueling head, n-step returns and noisy layers. The comparison methods are P-MADDPG, LToS, MitM and a condition without a regulator, in which every proposal is converted.
 
-This is a re-implementation of the method of the paper. The results in Chapter 4 of the thesis were produced with it, and the records of those runs are included.
+This is a re-implementation of the method of the paper. It was written after the thesis was examined, as part of its corrections, using an AI coding assistant, and the repository was prepared the same way. The results in Chapter 4 of the thesis were produced with it, and the records of those runs are included.
 
 The three baselines are also re-implemented for this environment. P-MADDPG follows the published algorithm of the Chapter 3 paper. LToS is written in PyTorch on a lattice of districts, with a DGN low level and a DDPG high level that shares reward between neighbouring districts. MitM is a reconstruction of the approach of Bone et al. (2011) from the published summary of that work, with one learner per objective over a vector of criterion weights. All of them run in the same environment, with the same seeds and metrics as QOLU+BUIA.
 
