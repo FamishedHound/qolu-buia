@@ -66,37 +66,39 @@ python -m chapter4_qolu.make_thesis_tables \
 python -m chapter4_qolu.make_figures --campaign chapter4_qolu/results/campaign_final --no-land-cover
 ```
 
-**Running the experiments again** (needs the raster). `RASTER` below is the `.img` file above. A run whose record is already on disk is skipped with `--resume`, so use another `--tag` to run everything again.
+**Running the experiments again** (needs the raster). `RASTER` below is the `.img` file above. The records of the thesis runs are in `results/campaign_final`, and a run whose record is on disk is skipped, so the commands below write to a new tag, `rerun`.
 
 ```bash
 RASTER=chapter4_qolu/data_raw/lcm2015_gb_1km/lcm2015_gb_1km_dominant_aggregate_class.img
 
 # 1. the comparison: 5 methods x 4 scenarios x 5 seeds, 1000 iterations per run (Tables 4.4 to 4.7)
 python -m chapter4_qolu.run_scenarios --raster $RASTER \
-    --tag final --window E495_N165 --configs 50:1.0:1 --qolu-reward-mode team \
+    --tag rerun --window E495_N165 --configs 50:1.0:1 --qolu-reward-mode team \
     --methods no_regulator ltos pmaddpg mitm_learned qolu_buia --scenarios 1 2 3 4 \
     --seeds 0 1 2 3 4 --iterations 1000 --decimals 3 --parallel 6 --resume
 
 # 2. the figures, including the land-cover maps (Figures 4.1 and 4.3)
-python -m chapter4_qolu.make_figures --campaign chapter4_qolu/results/campaign_final \
+python -m chapter4_qolu.make_figures --campaign chapter4_qolu/results/campaign_rerun \
     --raster $RASTER --region E495_N165
-python -m chapter4_qolu.figures.region_overview --campaign chapter4_qolu/results/campaign_final \
+python -m chapter4_qolu.figures.region_overview --campaign chapter4_qolu/results/campaign_rerun \
     --raster $RASTER --scenario 1 --seed 0
 
 # 3. the return-distribution diagnostics (Table 4.8)
 python -m chapter4_qolu.run_distribution_diagnostics --raster $RASTER \
-    --tag final --window E495_N165 --config 50:1.0:1 --method qolu_buia \
+    --tag rerun --window E495_N165 --config 50:1.0:1 --method qolu_buia \
     --qolu-reward-mode team --scenarios 1 2 3 4 --seeds 0 1 2 \
     --iterations 1000 --eval-iterations 200 --parallel 4 --resume \
-    --out chapter4_qolu/results/final_diag
+    --out chapter4_qolu/results/rerun_diag
 
 # 4. the thesis tables
 python -m chapter4_qolu.make_thesis_tables \
-    --campaign chapter4_qolu/results/campaign_final \
-    --diagnostics chapter4_qolu/results/final_diag/distribution_diagnostics_final
+    --campaign chapter4_qolu/results/campaign_rerun \
+    --diagnostics chapter4_qolu/results/rerun_diag/distribution_diagnostics_rerun
 ```
 
-`--window E495_N165` is the 50 x 50 km window whose south-west corner is at British National Grid E 495 km, N 165 km. A one-minute check that everything runs: `python -m chapter4_qolu.run_scenarios --raster $RASTER --smoke`.
+`--window E495_N165` is the 50 x 50 km window whose south-west corner is at British National Grid E 495 km, N 165 km. `mitm_learned` is the MitM row of the thesis tables. A one-minute check that everything runs: `python -m chapter4_qolu.run_scenarios --raster $RASTER --smoke`.
+
+**Not produced by a command here.** Figure 4.2 of the thesis (the land-preference pies) is taken from the published paper; the `land_preference_*` figures in `results/campaign_final/figures` are this package's own computation from the 1 km aggregate classes and are not the same figures. Figure 4.1 and the map of each run need the raster and a re-run (steps 1 and 2); `figures_index.md` still lists those map files. Figure 4.3 is `scenario_comparison_final`, drawn with slightly different labels from the printed figure. Drawing figures needs `matplotlib`, which is not in `requirements.txt`.
 
 Tests: `python -m pytest chapter4_qolu/tests`
 
